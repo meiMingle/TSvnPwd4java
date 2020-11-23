@@ -50,75 +50,112 @@ package com.tomxin.tool;// THIS MODULE IS ADAPTED FROM A THIRD PARTY.  BELOW ARE
 // Copyright (C) 2003 Obviex(TM). All rights reserved.
 //
 
+import com.sun.jna.Library;
+import com.sun.jna.Native;
 import com.sun.jna.Structure;
+import com.sun.jna.Platform;
 import com.sun.jna.ptr.IntByReference;
 import com.tomxin.tool.tangible.RefObject;
 
 /**
  Encrypts and decrypts data using DPAPI functions.
 */
-public class DPAPI{}
-/*
+public class DPAPI
+
 {
   // Wrapper for DPAPI CryptProtectData function.
   private static native boolean CryptProtectData(RefObject<DATA_BLOB> pPlainText, String szDescription, RefObject<DATA_BLOB> pEntropy, IntByReference pReserved, RefObject<CRYPTPROTECT_PROMPTSTRUCT> pPrompt, int dwFlags, RefObject<DATA_BLOB> pCipherText);
-  static
-  {
+  static {
 	  System.loadLibrary("crypt32.dll");
   }
 
   // Wrapper for DPAPI CryptUnprotectData function.
-  private static native boolean CryptUnprotectData(RefObject<DATA_BLOB> pCipherText, RefObject<String> pszDescription, RefObject<DATA_BLOB> pEntropy, IntByReference pReserved, RefObject<CRYPTPROTECT_PROMPTSTRUCT> pPrompt, int dwFlags, RefObject<DATA_BLOB> pPlainText);
+ // private static native boolean CryptUnprotectData(RefObject<DATA_BLOB> pCipherText, RefObject<String> pszDescription, RefObject<DATA_BLOB> pEntropy, IntByReference pReserved, RefObject<CRYPTPROTECT_PROMPTSTRUCT> pPrompt, int dwFlags, RefObject<DATA_BLOB> pPlainText);
+
+   public interface CLibrary extends Library {
+
+      CLibrary INSTANCE = Native.load((Platform.isWindows() ? "crypt32" : "c"), CLibrary.class);
+
+      /**
+       * @param pPlainText
+       * @param szDescription
+       * @param pEntropy
+       * @param pReserved
+       * @param pPrompt
+       * @param dwFlags
+       * @param pCipherText
+       * @return
+       */
+      // Wrapper for DPAPI CryptProtectData function.
+      boolean CryptProtectData(DATA_BLOB pPlainText,
+                               String szDescription,
+                               DATA_BLOB pEntropy,
+                               IntByReference pReserved,
+                               CRYPTPROTECT_PROMPTSTRUCT pPrompt,
+                               int dwFlags,
+                               DATA_BLOB pCipherText);
+
+      /**
+       * @param pCipherText
+       * @param pszDescription
+       * @param pEntropy
+       * @param pReserved
+       * @param pPrompt
+       * @param dwFlags
+       * @param pPlainText
+       * @return
+       */
+      // Wrapper for DPAPI CryptProtectData function.
+      boolean CryptUnprotectData(DATA_BLOB pCipherText,
+                                 String pszDescription,
+                                 DATA_BLOB pEntropy,
+                                 IntByReference pReserved,
+                                 CRYPTPROTECT_PROMPTSTRUCT pPrompt,
+                                 int dwFlags,
+                                 DATA_BLOB pPlainText);
+
+   }
+
+
+
+
+
 
   // BLOB structure used to pass data to DPAPI functions.
 //C# TO JAVA CONVERTER WARNING: Java does not allow user-defined value types. The behavior of this class will differ from the original:
 //ORIGINAL LINE: [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)] internal struct DATA_BLOB
 //C# TO JAVA CONVERTER TODO TASK: Java annotations will not correspond to .NET attributes:
   @Structure.FieldOrder({"cbData","pbData"})
-	public  static class DATA_BLOB
-  {
-	public int cbData;
-	//public IntByReference pbData = System.IntByReference.Zero;
-	public IntByReference pbData = new IntByReference();
+	public  static class DATA_BLOB extends Structure  {
 
-	  */
-/*public DATA_BLOB clone()
-	  {
-		  DATA_BLOB varCopy = new DATA_BLOB();
+     public int cbData;
+     public IntByReference pbData = new IntByReference();
 
-		  varCopy.cbData = this.cbData;
-		  varCopy.pbData = this.pbData;
+     public static class ByReference extends DATA_BLOB implements Structure.ByReference {
+     }
 
-		  return varCopy;
-	  }*//*
-
-	  public static class ByReference extends DATA_BLOB implements Structure.ByReference {}
-	  public static class ByValue extends DATA_BLOB implements Structure.ByValue {}
+     public static class ByValue extends DATA_BLOB implements Structure.ByValue {
+     }
   }
+
 
   // Prompt structure to be used for required parameters.
 //C# TO JAVA CONVERTER WARNING: Java does not allow user-defined value types. The behavior of this class will differ from the original:
 //ORIGINAL LINE: [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)] internal struct CRYPTPROTECT_PROMPTSTRUCT
 //C# TO JAVA CONVERTER TODO TASK: Java annotations will not correspond to .NET attributes:
-  public final static class CRYPTPROTECT_PROMPTSTRUCT
+  @Structure.FieldOrder({"cbSize","dwPromptFlags","hwndApp","szPrompt"})
+  public  static class CRYPTPROTECT_PROMPTSTRUCT extends Structure
   {
 	public int cbSize;
 	public int dwPromptFlags;
-	//public IntByReference pbData = System.IntByReference.Zero;
 	public IntByReference hwndApp = new IntByReference();
 	public String szPrompt;
+     public static class ByReference extends CRYPTPROTECT_PROMPTSTRUCT implements Structure.ByReference {
+     }
 
-	  public CRYPTPROTECT_PROMPTSTRUCT clone()
-	  {
-		  CRYPTPROTECT_PROMPTSTRUCT varCopy = new CRYPTPROTECT_PROMPTSTRUCT();
+     public static class ByValue extends CRYPTPROTECT_PROMPTSTRUCT implements Structure.ByValue {
+     }
 
-		  varCopy.cbSize = this.cbSize;
-		  varCopy.dwPromptFlags = this.dwPromptFlags;
-		  varCopy.hwndApp = this.hwndApp;
-		  varCopy.szPrompt = this.szPrompt;
-
-		  return varCopy;
-	  }
   }
 
   // Wrapper for the NULL handle or pointer.
@@ -129,24 +166,24 @@ public class DPAPI{}
   private static final int CRYPTPROTECT_UI_FORBIDDEN = 0x1;
   private static final int CRYPTPROTECT_LOCAL_MACHINE = 0x4;
 
-  */
+
 /**
    Initializes empty prompt structure.
    
    @param ps
    Prompt parameter (which we do not actually need).
    
-  *//*
+  */
 
-  private static void InitPrompt(RefObject<CRYPTPROTECT_PROMPTSTRUCT> ps)
+  private static void InitPrompt(CRYPTPROTECT_PROMPTSTRUCT.ByReference ps)
   {
-	ps.argValue.cbSize = System.Runtime.InteropServices.Marshal.SizeOf(CRYPTPROTECT_PROMPTSTRUCT.class);
-	ps.argValue.dwPromptFlags = 0;
-	ps.argValue.hwndApp = NullPtr;
-	ps.argValue.szPrompt = null;
+	//ps.argValue.cbSize = System.Runtime.InteropServices.Marshal.SizeOf(CRYPTPROTECT_PROMPTSTRUCT.class);
+	ps.cbSize =  ps.size();
+     ps.dwPromptFlags = 0;
+	ps.hwndApp = NullPtr;
+	ps.szPrompt = null;
   }
 
-  */
 /**
    Initializes a BLOB structure from a byte array.
    
@@ -156,11 +193,11 @@ public class DPAPI{}
    @param blob
    Returned blob structure.
    
-  *//*
+  */
 
 //C# TO JAVA CONVERTER WARNING: Unsigned integer types have no direct equivalent in Java:
 //ORIGINAL LINE: private static void InitBLOB(byte[] data, ref DATA_BLOB blob)
-  private static void InitBLOB(byte[] data, RefObject<DATA_BLOB> blob)
+  private static void InitBLOB(byte[] data, DATA_BLOB.ByReference blob)
   {
 	// Use empty array for null parameter.
 	if (data == null)
@@ -171,19 +208,21 @@ public class DPAPI{}
 	}
 
 	// Allocate memory for the BLOB data.
-	blob.argValue.pbData = Marshal.AllocHGlobal(data.length);
+	//blob.pbData = Marshal.AllocHGlobal(data.length); this instead by new in java
+	blob.pbData = new IntByReference(data.length);
 
 	// Make sure that memory allocation was successful.
-	if (System.IntByReference.OpEquality(blob.argValue.pbData, IntByReference.Zero))
+      //maybe its not necessary in java
+	/*if (System.IntByReference.OpEquality(blob.argValue.pbData, IntByReference.Zero))
 	{
 	  throw new RuntimeException("Unable to allocate data buffer for BLOB structure.");
-	}
+	}*/
 
 	// Specify number of bytes in the BLOB.
-	blob.argValue.cbData = data.length;
+	blob.cbData = data.length;
 
 	// Copy data from original source to the BLOB structure.
-	Marshal.Copy(data, 0, blob.argValue.pbData, data.length);
+	//Marshal.Copy(data, 0, blob.pbData, data.length);
   }
 
   // Flag indicating the type of key. DPAPI terminology refers to
@@ -232,7 +271,6 @@ public class DPAPI{}
   // It is reasonable to set default key type to user key.
   private static KeyType defaultKeyType = KeyType.UserKey;
 
-  */
 /**
    Calls DPAPI CryptProtectData function to encrypt a plaintext
    string value with a user-specific key. This function does not
@@ -737,5 +775,5 @@ public class DPAPI{}
 		Marshal.FreeHGlobal(entropyBlob.pbData);
 	  }
 	}
-  }
-}*/
+  }*/
+}

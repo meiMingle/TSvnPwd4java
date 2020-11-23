@@ -6,7 +6,9 @@ public class DllStudy {
         DllStudy.CLibrary INSTANCE = Native.load((Platform.isWindows() ? "DllStudy" : "c"), DllStudy.CLibrary.class);
 
         void SomeFunction();
+
         int add(int a, int b);
+
         NativeLong factorial(NativeLong n, UserStruct.ByReference pUserStruct);
 
 
@@ -28,10 +30,11 @@ public class DllStudy {
 
 
     public static void main(String[] args) {
-
+        //1.helloworld
         CLibrary.INSTANCE.SomeFunction();
+        //2.
         System.out.println(CLibrary.INSTANCE.add(25555, 36));
-
+        //3.
         UserStruct.ByReference pUserStruct = new UserStruct.ByReference();
         pUserStruct.id = new NativeLong(100L);
         pUserStruct.age = 30;
