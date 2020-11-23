@@ -3,7 +3,7 @@
 **查看本地登录过的SVN帐号密码**
 
 
-***项目状态：移植开发早期阶段 ，进度大约5%***
+***项目状态：移植开发早期阶段 ，进度大约:<div style="color:red;background-color:green">20%</div>***
 
 
 项目由来：
@@ -46,3 +46,4 @@
 **欢迎点赞项目，提交问题**
 
 感谢 [http://www.leapbeyond.com/ric/TSvnPD/]提供源码
+感谢JNA官方提供的测试代码[https://github.com/java-native-access/jna/blob/master/contrib/platform/test/com/sun/jna/platform/win32/Crypt32Test.java]
