@@ -2,8 +2,18 @@
 
 **查看本地登录过的SVN帐号密码**
 
+```mermaid
+gantt
+dateFormat　YYYY-MM-DD
+title 项目进度【开发中期】
+section 移植任务
+整体代码转换:done,des1, 2020-11-21,2020-11-23
+语法修正:active, des2, 2020-11-22, 5d
+调试优化:des3, after des2, 5d
+section 优化、添加注释和文档
+初期:des4,2020-12-01,10d
+```
 
-***项目状态：移植开发早期阶段 ，进度大约:<div style="color:red;background-color:green">20%</div>***
 
 
 项目由来：
@@ -22,16 +32,10 @@
 <ul>
   <li>此项目算法部分依赖于默认的svn环境设置,毫无疑问，不能保证所有情况都有效</li>
   <li>虽然不依赖.NET,但是依赖于Java环境</li>
-  <li>目前仅适用于Windows</li>
+  <li>仅适用于Windows</li>
 </ul>
 
 
-已知问题： 
-<ol>
-  <li></li>
-  <li></li>
-  <li></li>
-</ol>
 
 使用方式：    
 开启本软件的 VPN 服务即可使用
