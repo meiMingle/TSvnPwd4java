@@ -2,19 +2,6 @@
 
 **查看本地登录过的SVN帐号密码**
 
-```mermaid
-gantt
-dateFormat　YYYY-MM-DD
-title 项目进度【开发中期】
-section 移植任务
-整体代码转换:done,des1, 2020-11-21,2020-11-23
-语法修正:active, des2, 2020-11-22, 5d
-调试优化:des3, after des2, 5d
-section 优化、添加注释和文档
-初期:des4,2020-12-01,10d
-```
-
-
 
 项目由来：
 
@@ -42,7 +29,14 @@ section 优化、添加注释和文档
 如无法使用请重启网易云  
 开启本软件后如遇到设备网络异常请关闭本软件  
 
-说明：    
+使用说明：
+1.下载 maven 、jdk 并配置好环境变量，详细步骤 略
+2.下载本项目，在T‘SvnPwd4java’目录执行
+mvn assembly:assembly
+3.在‘TSvnPwd4java/targe’t目录下执行
+java -jar TSvnPwd4java-1.0-SNAPSHOT-jar-with-dependencies.jar
+
+
 
 
 **项目需要频繁维护，希望大家支持**
