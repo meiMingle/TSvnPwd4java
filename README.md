@@ -15,6 +15,9 @@
 事实上该工具并非利用TortoiseSVN中的安全漏洞进行解密。仅当您使用最初对文件进行加密的Windows用户帐户登录并通过身份验证时，才可以访问密码。
 
 
+
+
+
 局限性：
 <ul>
   <li>此项目算法部分依赖于默认的svn环境设置,毫无疑问，不能保证所有情况都有效</li>
@@ -24,25 +27,30 @@
 
 
 
-使用方式：    
-开启本软件的 VPN 服务即可使用
-如无法使用请重启网易云  
-开启本软件后如遇到设备网络异常请关闭本软件  
 
 使用说明：
+
 1.下载 maven 、jdk 并配置好环境变量，详细步骤 略
+
 2.下载本项目，在T‘SvnPwd4java’目录执行
+```bash
 mvn assembly:assembly
+```
+
 3.在‘TSvnPwd4java/targe’t目录下执行
+```bash
 java -jar TSvnPwd4java-1.0-SNAPSHOT-jar-with-dependencies.jar
+```
 
+效果图：
 
+![](https://ftp.bmp.ovh/imgs/2020/11/cc15072258fc823c.png)
 
 
 **项目需要频繁维护，希望大家支持**
 
 **欢迎点赞项目，提交问题**
 
-感谢 [http://www.leapbeyond.com/ric/TSvnPD/]提供源码
+感谢  [http://www.leapbeyond.com/ric/TSvnPD] 提供源码
 
 感谢JNA官方提供的测试代码[https://github.com/java-native-access/jna/blob/master/contrib/platform/test/com/sun/jna/platform/win32/Crypt32Test.java]
