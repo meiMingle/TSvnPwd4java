@@ -51,6 +51,6 @@ java -jar TSvnPwd4java-1.0-SNAPSHOT-jar-with-dependencies.jar
 
 **欢迎点赞项目，提交问题**
 
-感谢  [http://www.leapbeyond.com/ric/TSvnPD] 提供源码
+部分代码参考  [http://www.leapbeyond.com/ric/TSvnPD] 提供的源码，表示感谢
 
-感谢JNA官方提供的测试代码[https://github.com/java-native-access/jna/blob/master/contrib/platform/test/com/sun/jna/platform/win32/Crypt32Test.java]
+部分代码参考JNA官方提供的测试代码[https://github.com/java-native-access/jna/blob/master/contrib/platform/test/com/sun/jna/platform/win32/Crypt32Test.java]，表示感谢
