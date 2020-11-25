@@ -26,18 +26,20 @@
 </ul>
 
 
-
-
 使用说明：
+
+0.如果想自己编译执行可以按照步骤1、2、3操作，也可以从https://github.com/meiMingle/TSvnPwd4java/releases 直接下载TSvnPwd4java-1.0-SNAPSHOT-jar-with-dependencies.jar ，并跳过步骤1、2；
 
 1.下载 maven 、jdk 并配置好环境变量，详细步骤 略
 
 2.下载本项目，在T‘SvnPwd4java’目录执行
+
 ```bash
 mvn assembly:assembly
 ```
 
 3.在‘TSvnPwd4java/targe’t目录下执行
+
 ```bash
 java -jar TSvnPwd4java-1.0-SNAPSHOT-jar-with-dependencies.jar
 ```
