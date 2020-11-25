@@ -1,7 +1,9 @@
 import com.sun.jna.*;
+import junit.framework.TestCase;
 
-public class DllStudy {
+public class DllStudy extends TestCase {
     public interface CLibrary extends Library {
+
 
         DllStudy.CLibrary INSTANCE = Native.load((Platform.isWindows() ? "DllStudy" : "c"), DllStudy.CLibrary.class);
 
@@ -29,16 +31,17 @@ public class DllStudy {
     }
 
 
-    public static void main(String[] args) {
+    public  void test1() {
         //1.helloworld
         CLibrary.INSTANCE.SomeFunction();
         //2.
-        System.out.println(CLibrary.INSTANCE.add(25555, 36));
+        int addResult = CLibrary.INSTANCE.add(66, 22);
+        assertEquals("加法测试不通过",88, addResult);
         //3.
         UserStruct.ByReference pUserStruct = new UserStruct.ByReference();
         pUserStruct.id = new NativeLong(100L);
         pUserStruct.age = 30;
         pUserStruct.name = new WString("奥巴马");
-        System.out.println(CLibrary.INSTANCE.factorial(new NativeLong(13L), pUserStruct));
+        assertEquals("阶乘方法测试不通过",new Long( 1932053504L),new Long(CLibrary.INSTANCE.factorial(new NativeLong(13L), pUserStruct).longValue()));
     }
 }

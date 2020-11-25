@@ -37,9 +37,9 @@ import java.util.Base64;
  */
 public class Crypt32UtilTest extends TestCase {
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         junit.textui.TestRunner.run(Crypt32UtilTest.class);
-    }
+    }*/
 
     public void testCryptProtectUnprotectData() {
         byte[] data = new byte[2];
