@@ -1,11 +1,16 @@
 package com.tomxin.tool;
 
-import java.util.*;
 
+//----------------------------------------------------------------------------------------
+//	Copyright © 2007 - 2017 Tangible Software Solutions Inc.
+//	This class can be used by anyone provided that the copyright notice remains intact.
+//
+//	This class is used to hand Exception message
+//----------------------------------------------------------------------------------------
 public class AuthParseException extends RuntimeException {
 
-    private String path;
-    private int lineNum;
+    private final String path;
+    private final int lineNum;
 
     public AuthParseException(String path, int lineNum) {
         this.path = path;

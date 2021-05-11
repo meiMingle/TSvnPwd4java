@@ -6,25 +6,42 @@ import com.tomxin.tool.tangible.TryParseHelper;
 import java.io.*;
 import java.util.*;
 
-// A simple, naive parser to read a limited subset of Subversion configuration files.
-// This class does not understand the full range of syntax for subversion files and
-// will fail on files that are in an unexpected - yet legitimate - format.
-//
-// The files containing cached credentials, as created by TortoiseSVN on Windows, appear
-// to contain key value pairs that are broken up into multiple lines.  The logic below is
-// based on a brief examination of a single "svn.simple" file.
-
-
+/**
+ * A simple,naive parser to read a limited subset of Subversion configuration files.
+ * This class does not understand the full range of syntax for subversion files and
+ * will fail on files that are in an unexpected - yet legitimate - format.
+ * <p>
+ * The files containing cached credentials, as created by TortoiseSVN on Windows, appear
+ * to contain key value pairs that are broken up into multiple lines.  The logic below is
+ * based on a brief examination of a single "svn.simple" file.
+ */
 public class AuthFileParser {
 
-    // Set a limit on maximum lines parsed to avoid stalling out on big files
+
+    /**
+     * Set a limit on maximum lines parsed to avoid stalling out on big files
+     */
     private static final int MAX_LINES = 1000;
 
-    // Parser states
+    /**
+     * Parser states
+     */
     private enum States {
+        /**
+         *
+         */
         ExpectingKeyDef,
+        /**
+         *
+         */
         ExpectingKeyName,
+        /**
+         *
+         */
         ExpectingValueDef,
+        /**
+         *
+         */
         ExpectingValue;
 
         public static final int SIZE = Integer.SIZE;
@@ -38,17 +55,29 @@ public class AuthFileParser {
         }
     }
 
-    // Current state
+
+    /**
+     * Current state
+     */
     private States state = States.ExpectingKeyDef;
 
-    // Data persisted between states
+
+    /**
+     * Data persisted between states
+     */
     private String keyName = "";
     private int nextLength = -1;
 
-    // Values read so far
+
+    /**
+     *  Values read so far
+     */
     private HashMap<String, String> props = new HashMap<String, String>();
 
-    // Only allow access through static ReadFile() method
+
+    /**
+     * Only allow access through static ReadFile() method
+     */
     private AuthFileParser() {
     }
 
@@ -101,10 +130,12 @@ public class AuthFileParser {
         return true;
     }
 
-    // Do some rudimentary validation to ensure the current line looks like a definition
-    // line, then parse it.  A definition line looks something like "K #" or "V #",
-    // where # is the length of the next line.  K means the next line will be a key name,
-    // while V means it will be a value.  # will be stored in nextLength.
+    /**
+     *  Do some rudimentary validation to ensure the current line looks like a definition
+     *  line, then parse it.  A definition line looks something like "K #" or "V #",
+     *  where # is the length of the next line.  K means the next line will be a key name,
+     *  while V means it will be a value.  # will be stored in nextLength.
+     */
     private boolean parseDefLine(String prefix, String line) {
         line = line.trim();
         if (!line.toUpperCase().startsWith(prefix + " ")) {
@@ -124,8 +155,11 @@ public class AuthFileParser {
         return true;
     }
 
-    // Read a key name or value line.  If this is a value line, then save the key/value
-    // pair that has just been read.
+    /**
+     * Read a key name or value line.  If this is a value line, then save the key/value
+     * pair that has just been read.
+     */
+
     private boolean parseValLine(String line) {
 
         if (line.length() < nextLength) {
@@ -166,8 +200,9 @@ public class AuthFileParser {
                 if (!line.trim().startsWith("#")) {
 
                     // Check for end of file marker
-                    if (parser.state == States.ExpectingKeyDef && line.trim().toUpperCase().equals("END")) {
-                        return parser.props; // Return results
+                    if (parser.state == States.ExpectingKeyDef && "END".equals(line.trim().toUpperCase())) {
+                        // Return results
+                        return parser.props;
                     }
 
                     // Attempt to parse the line
